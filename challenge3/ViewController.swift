@@ -17,10 +17,12 @@ class ViewController: UIViewController {
     var answersView: UIView!
     var answerButtons = [UIButton]()
     var answerViewConstraint = NSLayoutConstraint()
+    var buttonsView: UIView!
     
     var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "", "", "Y", "Z", "", ""]
     var currentWord = ""
     var currentWordLetters = [String]()
+    var previousWords = [String]()
     
     var score = 0 {
         didSet {
@@ -31,14 +33,18 @@ class ViewController: UIViewController {
     var lifeCount = 7 {
         didSet {
             lifeCountLabel.text = "Remaining lives: \(lifeCount)"
+            hangImage.image = UIImage(named: "hangman\(lifeCount)")
         }
     }
+    
+    var portraitConstraints = [NSLayoutConstraint]()
+    var landscapeConstraints = [NSLayoutConstraint]()
+    
     
     override func loadView() {
         
         view = UIView()
         view.backgroundColor = .white
-
         
         scoreLabel = UILabel()
         scoreLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -67,7 +73,7 @@ class ViewController: UIViewController {
         view.addSubview(guideLabel)
         
         
-        let buttonsView = UIView()
+        buttonsView = UIView()
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttonsView)
         
@@ -75,9 +81,7 @@ class ViewController: UIViewController {
         answersView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(answersView)
         
-        
-        NSLayoutConstraint.activate([
-            
+        portraitConstraints = [
             scoreLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             scoreLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: -10),
             scoreLabel.centerYAnchor.constraint(equalTo: lifeCountLabel.centerYAnchor),
@@ -90,19 +94,49 @@ class ViewController: UIViewController {
             
             
             guideLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            guideLabel.topAnchor.constraint(equalTo: hangImage.bottomAnchor, constant: 20),
+            guideLabel.topAnchor.constraint(equalTo: hangImage.bottomAnchor, constant: 5),
             
             answersView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             answersView.topAnchor.constraint(equalTo: guideLabel.topAnchor, constant: 3),
             
-            buttonsView.topAnchor.constraint(equalTo: guideLabel.bottomAnchor, constant: 20),
+            buttonsView.topAnchor.constraint(equalTo: answersView.topAnchor, constant: 40),
             buttonsView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20),
             buttonsView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            buttonsView.widthAnchor.constraint(equalToConstant: 300),
-            buttonsView.heightAnchor.constraint(equalToConstant: 200),
-            
+            buttonsView.widthAnchor.constraint(greaterThanOrEqualToConstant: 300),
+            buttonsView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200),
+        ]
         
-        ])
+        landscapeConstraints = [
+            scoreLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            scoreLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: -10),
+            scoreLabel.centerYAnchor.constraint(equalTo: lifeCountLabel.centerYAnchor),
+            
+            lifeCountLabel.topAnchor.constraint(equalTo: scoreLabel.topAnchor),
+            lifeCountLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: 10),
+            
+            hangImage.topAnchor.constraint(equalTo: scoreLabel.bottomAnchor, constant: 5),
+            hangImage.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: -30),
+            hangImage.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: 5),
+            
+            
+            guideLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: 60),
+            guideLabel.topAnchor.constraint(equalTo: lifeCountLabel.bottomAnchor, constant: 25),
+            
+            answersView.centerXAnchor.constraint(equalTo: guideLabel.centerXAnchor),
+            answersView.topAnchor.constraint(equalTo: guideLabel.topAnchor, constant: 25),
+            
+            buttonsView.topAnchor.constraint(equalTo: guideLabel.bottomAnchor, constant: 40),
+            buttonsView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -20),
+            buttonsView.centerXAnchor.constraint(equalTo: guideLabel.centerXAnchor),
+            buttonsView.widthAnchor.constraint(greaterThanOrEqualToConstant: 300),
+            buttonsView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200),
+        ]
+        
+        if UIScreen.main.isPortrait() {
+            activatePortraitConstraints()
+        } else {
+            activateLandscapeConstraints()
+        }
         
         let width = 50
         let height = 40
@@ -129,15 +163,8 @@ class ViewController: UIViewController {
                 }
             }
         }
-            //place for some kind of graphic:
-//        let fm = FileManager.default
-//        let path = Bundle.main.resourcePath!
-//        let items = try! fm.contentsOfDirectory(atPath: path)
-//        for item in items {
-//            if item.hasPrefix("ima") {
-//                hangImage.image = UIImage(named: item)
-//            }
-//        }
+        
+        hangImage.image = UIImage(named: "hangman7")
         
     }
     
@@ -147,7 +174,15 @@ class ViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "New Game", style: .plain, target: self, action: #selector(newGame))
 
         loadLevel()
-        
+
+
+    }
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if UIDevice.current.orientation.isPortrait {
+            activatePortraitConstraints()
+        } else {
+            activateLandscapeConstraints()
+        }
     }
     
     @objc func letterTapped(_ sender: UIButton) {
@@ -186,6 +221,7 @@ class ViewController: UIViewController {
     func outOfTries (action: UIAlertAction) {
         
         resetAll(title: "_")
+        guideLabel.isHidden = false
         
         let lettersOfSolution = Array(currentWord)
         for i in 0..<answerButtons.count {
@@ -203,28 +239,31 @@ class ViewController: UIViewController {
             if let fileContents = try? String(contentsOf: FIleURL) {
                 var levels = fileContents.components(separatedBy: "\n")
                 levels.shuffle()
-                
-                guard let solutionString = levels.randomElement()?.uppercased() else {return}
-                let lettersOfSOlution = Array(solutionString)
-                currentWord = solutionString
+                var randomWord: String
+                repeat {
+                    guard let word = levels.randomElement()?.uppercased() else {return}
+                    randomWord = word
+                } while previousWords.contains(randomWord)
+                let lettersOfSOlution = Array(randomWord)
+                currentWord = randomWord
                 for i in 0..<lettersOfSOlution.count {
                     let str = String(lettersOfSOlution[i])
                     currentWordLetters.append(str)
                 }
-                print (currentWordLetters)
-        for i in 0..<currentWordLetters.count {
+                
+                for i in 0..<currentWordLetters.count {
+                    let answerLetter = UIButton(type: .system)
+                    answerLetter.setTitle("_", for: .normal)
+                    answerLetter.setTitleColor(.black, for: .normal)
+                    answerLetter.titleLabel?.font = UIFont.systemFont(ofSize: 25)
+            
+                    answerButtons.append(answerLetter)
+            
+                    let frame = CGRect(x: i * dimension, y: 10, width: dimension, height: dimension)
+                    answerButtons[i].frame = frame
+            
+                    answersView.addSubview(answerButtons[i])
                     
-            let answerLetter = UIButton(type: .system)
-            answerLetter.setTitle("_", for: .normal)
-            answerLetter.setTitleColor(.black, for: .normal)
-            answerLetter.titleLabel?.font = UIFont.systemFont(ofSize: 25)
-            
-            answerButtons.append(answerLetter)
-            
-            let frame = CGRect(x: i * dimension, y: 10, width: dimension, height: dimension)
-            answerButtons[i].frame = frame
-            
-            answersView.addSubview(answerButtons[i])
                 }
             }
         }
@@ -235,6 +274,12 @@ class ViewController: UIViewController {
     
     @objc func newGame(action: UIAlertAction) {
         
+        previousWords.append(currentWord)
+        // empty previousWord array when we run out of words so we don't enter infinite loop
+        if previousWords.count == 27 {
+            previousWords.removeAll()
+        }
+        guideLabel.isHidden = false
         resetAll(title: nil)
         answerButtons.removeAll()
         currentWord = ""
