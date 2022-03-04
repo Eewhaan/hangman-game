@@ -132,7 +132,7 @@ class ViewController: UIViewController {
             buttonsView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200),
         ]
         
-        if UIScreen.main.isPortrait() {
+        if UIDevice.current.orientation.isPortrait {
             activatePortraitConstraints()
         } else {
             activateLandscapeConstraints()
