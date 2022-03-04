@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     var answerViewConstraint = NSLayoutConstraint()
     var buttonsView: UIView!
     
-    var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "", "", "Y", "Z", "", ""]
+    var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
     var currentWord = ""
     var currentWordLetters = [String]()
     var previousWords = [String]()
@@ -142,7 +142,7 @@ class ViewController: UIViewController {
         let height = 40
         let counter = 6
         
-        for row in 0..<5 {
+        for row in 0..<4 {
             for column in 0..<6 {
                 let letterButton = UIButton(type: .system)
                 letterButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
@@ -154,13 +154,27 @@ class ViewController: UIViewController {
                 let frame = CGRect(x: column * width, y: row * height, width: width - 1, height: height - 1)
                 letterButton.frame = frame
                 
-                
+
                 buttonsView.addSubview(letterButton)
                 letterButtons.append(letterButton)
                 
-                if letterButton.currentTitle == "" {
-                    letterButton.isHidden = true
-                }
+            }
+        }
+        for row in 4..<5 {
+            for column in 2...3 {
+                let letterButton = UIButton(type: .system)
+                letterButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+                letterButton.setTitle(letters[22 + column], for: .normal)
+                letterButton.addTarget(self, action: #selector(letterTapped), for: .touchUpInside)
+                letterButton.layer.borderWidth = 0.5
+                letterButton.layer.borderColor = UIColor.gray.cgColor
+                letterButton.setTitleColor(UIColor.black, for: .normal)
+                let frame = CGRect(x: column * width, y: row * height, width: width - 1, height: height - 1)
+                letterButton.frame = frame
+                
+                
+                buttonsView.addSubview(letterButton)
+                letterButtons.append(letterButton)
             }
         }
         
