@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		DB12308D2796E34500176E50 /* challenge3 file.txt in Resources */ = {isa = PBXBuildFile; fileRef = DB12308C2796E34400176E50 /* challenge3 file.txt */; };
 		DBA4CBFA27D0F9A30082A550 /* ViewController + Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA4CBF927D0F9A30082A550 /* ViewController + Constraints.swift */; };
-		DBA4CC0027D1270A0082A550 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA4CBFF27D1270A0082A550 /* extension.swift */; };
 		DBA89B912795D35B00591AF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA89B902795D35B00591AF3 /* AppDelegate.swift */; };
 		DBA89B932795D35B00591AF3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA89B922795D35B00591AF3 /* SceneDelegate.swift */; };
 		DBA89B952795D35B00591AF3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA89B942795D35B00591AF3 /* ViewController.swift */; };
@@ -21,7 +20,6 @@
 /* Begin PBXFileReference section */
 		DB12308C2796E34400176E50 /* challenge3 file.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "challenge3 file.txt"; sourceTree = SOURCE_ROOT; };
 		DBA4CBF927D0F9A30082A550 /* ViewController + Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController + Constraints.swift"; sourceTree = "<group>"; };
-		DBA4CBFF27D1270A0082A550 /* extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
 		DBA89B8D2795D35B00591AF3 /* challenge3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = challenge3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBA89B902795D35B00591AF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DBA89B922795D35B00591AF3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,7 +64,6 @@
 				DBA89B922795D35B00591AF3 /* SceneDelegate.swift */,
 				DBA89B942795D35B00591AF3 /* ViewController.swift */,
 				DBA4CBF927D0F9A30082A550 /* ViewController + Constraints.swift */,
-				DBA4CBFF27D1270A0082A550 /* extension.swift */,
 				DBA89B962795D35B00591AF3 /* Main.storyboard */,
 				DBA89B992795D35C00591AF3 /* Assets.xcassets */,
 				DBA89B9B2795D35C00591AF3 /* LaunchScreen.storyboard */,
@@ -151,7 +148,6 @@
 				DBA89B952795D35B00591AF3 /* ViewController.swift in Sources */,
 				DBA89B912795D35B00591AF3 /* AppDelegate.swift in Sources */,
 				DBA89B932795D35B00591AF3 /* SceneDelegate.swift in Sources */,
-				DBA4CC0027D1270A0082A550 /* extension.swift in Sources */,
 				DBA4CBFA27D0F9A30082A550 /* ViewController + Constraints.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
